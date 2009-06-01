@@ -30,8 +30,12 @@ class MigsBehavior extends ModelBehavior
 		// data contains the cc details.
 		$row = $model->read();
 
+		// clean expiry date
 		$expiry = substr($data['Payment']['cc_expiry']['year'], 2); // known to be 4 digits.
 		$expiry .= $data['Payment']['cc_expiry']['month']; // known to be 2 digits
+
+		// remvoe all non numbers from the cc number
+		$data['Payment']['cc_number'] = preg_replace('/\D/', '', $data['Payment']['cc_number']);
 
 		$fields = array(
 			'vpc_Version' => 1,
